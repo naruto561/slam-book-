@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime Friends Slam Book </title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 25px 12px;
+      font-family: "Trebuchet MS", sans-serif;
+      background: #ffeaf3;
+      color: #713c65;
+      text-align: center;
+    }
+
+    .book {
+      max-width: 500px;
+      margin: auto;
+      padding: 25px;
+      background: #fffafd;
+      border: 3px solid #f4a8cb;
+      border-radius: 25px;
+      box-shadow: 0 8px 20px #e7b6d0;
+    }
+
+    h1 {
+      color: #e66ba4;
+      font-size: 2.2rem;
+    }
+
+    .anime {
+      font-size: 65px;
+      margin: 12px;
+    }
+
+    .subtitle {
+      color: #b16b9d;
+      font-style: italic;
+    }
+
+    input, textarea {
+      box-sizing: border-box;
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      border: 2px solid #f3c1dc;
+      border-radius: 12px;
+      background: #fff5fa;
+      font: inherit;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 65px;
+    }
+
+    button {
+      margin: 8px 4px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 20px;
+      background: #ed8fba;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #d968a0;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    #message {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="book">
+    <div class="anime">i love you</div>
+    <h1>My Anime Slam Book</h1>
+    <p class="subtitle">♡ Friends, memories & kawaii moments ♡</p>
+
+    <section class="page active">
+      <h2> All About You</h2>
+      <input id="name" placeholder="Your name">
+      <input id="nickname" placeholder="Your nickname">
+      <input id="birthday" placeholder="Your birthday">
+      <input id="colour" placeholder="Favourite colour">
+      <textarea id="hobby" placeholder="Your hobbies"></textarea>
+      <button onclick="nextPage(1)">Next ➜</button>
+    </section>
+
+    <section class="page">
+      <h2> Anime & Fun</h2>
+      <input id="animeName" placeholder="Favourite anime">
+      <input id="character" placeholder="Favourite anime character">
+      <textarea id="superpower" placeholder="What superpower would you choose?"></textarea>
+      <textarea id="memory" placeholder="Funniest classroom memory"></textarea>
+      <button onclick="nextPage(0)">⬅ Back</button>
+      <button onclick="nextPage(2)">Next ➜</button>
+    </section>
+
+    <section class="page">
+      <h2> Our Friendship</h2>
+      <textarea id="impression" placeholder="Your first impression of me"></textarea>
+      <textarea id="friendship" placeholder="Your favourite memory with me"></textarea>
+      <textarea id="messageFriend" placeholder="Write me a cute message"></textarea>
+      <button onclick="nextPage(1)">⬅ Back</button>
+      <button onclick="showAnswers()">Finish ♡</button>
+    </section>
+
+    <section class="page">
+      <h2> Your Slam Book Page</h2>
+      <p>Thanks for being part of my story!</p>
+      <pre id="message"></pre>
+      <button onclick="copyAnswers()">Copy answers </button>
+      <button onclick="nextPage(0)">Start again ↻</button>
+    </section>
+  </main>
+
+  <script>
+    function nextPage(index) {
+      document.querySelectorAll(".page").forEach((page, i) => {
+        page.classList.toggle("active", i === index);
+      });
+    }
+
+    function showAnswers() {
+      const fields = [
+        ["Name", "name"],
+        ["Nickname", "nickname"],
+        ["Birthday", "birthday"],
+        ["Favourite colour", "colour"],
+        ["Hobbies", "hobby"],
+        ["Favourite anime", "animeName"],
+        ["Favourite character", "character"],
+        ["Superpower", "superpower"],
+        ["Classroom memory", "memory"],
+        ["First impression", "impression"],
+        ["Friendship memory", "friendship"],
+        ["Message", "messageFriend"]
+      ];
+
+      document.getElementById("message").textContent =
+        fields.map(([label, id]) =>
+          label + ": " + (document.getElementById(id).value || "Not answered")
+        ).join("\n\n");
+
+      nextPage(3);
+    }
+
+    async function copyAnswers() {
+      const text = document.getElementById("message").textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("Answers copied! ");
+      } catch {
+        alert("Please select and copy the answers manually.");
+      }
+    }
+  </script>
+</body>
+</html>
